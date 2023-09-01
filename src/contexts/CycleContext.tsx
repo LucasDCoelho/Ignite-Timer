@@ -22,7 +22,7 @@ interface CylceContextType {
   setSecondsPassed: (seconds: number) => void
   markCurrentCycleAsFinished: () => void
   createNewCycle: (data: CycleFormData) => void
-  interruptCycle: () => void
+  interruptCurrentCycle: () => void
 }
 
 export const CylceContext = createContext({} as CylceContextType)
@@ -69,11 +69,11 @@ export function CycleContextProvider({ children }: CycleContextProviderProps) {
     setAmountSecondsPassed(0)
   }
 
-  function interruptCycle() {
+  function interruptCurrentCycle() {
     setCycles((state) =>
       state.map((cycle) => {
         if (cycle.id === activeCycleId) {
-          return { ...cycle, interrupedDate: new Date() }
+          return { ...cycle, interruptedDate: new Date() }
         } else {
           return cycle
         }
@@ -93,7 +93,7 @@ export function CycleContextProvider({ children }: CycleContextProviderProps) {
         amountSecondsPassed,
         setSecondsPassed,
         createNewCycle,
-        interruptCycle,
+        interruptCurrentCycle,
       }}
     >
       {children}
